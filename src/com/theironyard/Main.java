@@ -1,7 +1,11 @@
 package com.theironyard;
 
+import jodd.json.JsonSerializer;
+
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,7 +29,7 @@ public class Main {
         return countries;
     }
 
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) throws IOException {
 
         Scanner scanner = new Scanner(System.in);
 
@@ -62,16 +66,47 @@ public class Main {
 
 
 
-        //ArrayList<String> arr = map.get()
-/*
+
+
         System.out.println("Enter a single letter to return all countries beginning with that letter");
         String letter = scanner.nextLine();
         int length = letter.length();
+        ArrayList<Country> list = map.get(letter);
 
-        if ((length == 1)) {
+        if (length == 1) {
+
+            String outFile = (letter + "_countries.txt");
+
+            JsonSerializer serializer = new JsonSerializer();
+            String json = serializer.include("*").serialize(list);
+
+            File f = new File(outFile);
+            try {
+                FileWriter fw = new FileWriter(f);
+                fw.write(json);
+                fw.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            throw new IllegalArgumentException("Entered value not a single character");
+        }
+
+
+
+
+        /*
+
+        File countryText = new File(outFile);
+        FileWriter fw = new FileWriter(countryText);
+        i = 0;
+        fw.write(list.name(0));
+        for (Country countryByLetter : list) {
 
         }
-*/
+        */
+
+
 
 
 
